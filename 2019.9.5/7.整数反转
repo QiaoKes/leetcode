@@ -1,0 +1,18 @@
+int reverse(int x){
+    long n = x;
+    bool symbol = false;
+    if(n < 0){
+        symbol = true;
+        n = -n;
+    }
+    
+    long sum = 0;
+    while(n){
+        sum = sum*10 + n%10;
+        n /= 10;
+    }
+    if(symbol){
+        sum = -sum;
+    }
+    return (sum <= 2147483647 && sum >= -2147483648) ? sum : 0;
+}
