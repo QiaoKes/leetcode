@@ -15,3 +15,28 @@ int* twoSum(int* nums, int numsSize, int target, int* returnSize){
     }
     return ans;
 }
+
+//一遍hash表 
+
+/*
+ * @lc app=leetcode.cn id=1 lang=cpp
+ *
+ * [1] 两数之和
+ */
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        map<int, int> hashmap;
+        vector res(2,-1);
+        for(int i = 0; i < nums.size(); i++){
+            int temp = target - nums[i];
+            //未找到时返回end()迭代器
+            if(hashmap.find(temp) != hashmap.end()){
+                res[0] = hashmap[temp];
+                res[1] = i;
+            }
+            hashmap[nums[i]] = i;
+        }
+        return res;
+    }
+};
