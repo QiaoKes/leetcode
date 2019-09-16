@@ -1,0 +1,39 @@
+/*
+ * @lc app=leetcode.cn id=20 lang=cpp
+ *
+ * [20] 有效的括号
+ */
+class Solution {
+public:
+    bool check(char s1, char s2){
+        if( (s1 == '(' && s2 == ')') ||
+            (s1 == '[' && s2 == ']') ||
+            (s1 == '{' && s2 == '}') ){
+                return true;
+            }
+        return false;
+    }
+    bool isValid(string s) {
+
+        stack<char> stk;
+        for(int i = 0; i < s.size(); i++){
+            if(s[i] == '(' || s[i] == '{' || s[i] == '['){
+                stk.push(s[i]);
+            }
+            else{
+                //栈空 遇到了右括号 不匹配
+                if(stk.empty()){
+                    return false;
+                }else{
+                    if(check(stk.top(), s[i])){
+                        stk.pop();
+                    }else{
+                        //左右括号不匹配
+                        return false;
+                    }
+                }
+            }
+        }
+        return stk.empty();
+    }
+};
