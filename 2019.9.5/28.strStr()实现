@@ -1,0 +1,64 @@
+/*
+ * @lc app=leetcode.cn id=28 lang=cpp
+ *
+ * [28] 实现 strStr()
+ 字符串匹配算法
+ 理论应该用KMP；
+ 不太会
+ 先抄个板子。
+ */
+class Solution {
+public:
+    vector<int> getnext(string s)
+    {
+
+        int t = s.size();
+        vector<int> next(t);
+        int i = 0, j = -1;
+        next[0] = -1;
+        while (i<t-1)      //因为是算的next元素的前缀匹配数 小心越界
+        {
+            if (j==-1||s[i] == s[j])  //
+            {
+                i++;
+                j++;
+                next[i] = j;
+            }
+            else
+                j = next[j];
+        }
+        return next;
+
+    }
+    int KMPMatch(string s1, string s2)
+    {
+        int t1 = s1.size();
+        int t2 = s2.size();
+        //若匹配串为空串应返回0
+        if(t2 <= 0){
+            return 0;
+        }
+        vector <int> next(getnext(s2));
+        int i = 0, j = 0;
+        while (i < t1&&j < t2)
+        {
+            if (j == -1 || s1[i] == s2[j])  //注意是j==-1；
+            {
+                i++;
+                j++;
+            }
+            else
+            {
+                j = next[j];
+            }
+        }
+        if (j == t2)
+            return i - j;
+        return -1;
+    }
+    int strStr(string haystack, string needle) {
+        int ans = KMPMatch(haystack, needle);
+        return ans;
+    }
+};
+
