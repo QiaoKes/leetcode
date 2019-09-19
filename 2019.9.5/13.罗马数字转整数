@@ -1,0 +1,36 @@
+/*
+ * @lc app=leetcode.cn id=13 lang=cpp
+ *
+ * [13] 罗马数字转整数
+ 通过查看规律，我们写一个hash表来完成罗马数字与整数的映射，
+ 当左面的罗马数字小于右面时， 我们就加上他的负值
+ 否则我们就加上他的原值。
+ */
+class Solution {
+public:
+    int romanToInt(string s) {
+        map<char, int> table = {
+            {'I', 1},
+            {'V', 5},
+            {'X', 10},
+            {'L', 50},
+            {'C', 100},
+            {'D', 500},
+            {'M', 1000}
+        };
+
+        int ans = 0;
+        int len = s.size();
+        ///防止越界
+        for(int i = 0; i < len-1; i++){
+            if(table[s[i]] >= table[s[i+1]]){
+                ans += table[s[i]];
+            }else{
+                ans -= table[s[i]];
+            }
+        }
+        //最后一个必然加上
+        ans += table[s[len-1]];
+        return ans;
+    }
+};
