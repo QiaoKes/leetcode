@@ -1,0 +1,31 @@
+/*
+ * @lc app=leetcode.cn id=121 lang=cpp
+ *
+ * [121] 买卖股票的最佳时机
+ ！！！！
+ 注意 一定要写int len = prices.size();
+ .size()方法返回的是无符号数
+ 当其=0时 s.size()-1 = 4294967295
+ 所以一定要进行强制类型转换
+ ！！！！
+ */
+ //暴力解法
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int ans = 0;
+        //！！！
+        int len = prices.size();
+        for(int i = 0; i < len-1; i++){
+            for(int j = i+1; j < len; j++){
+                int tmp = prices[j] - prices[i];
+                if(prices[i] < prices[j]){   
+                    if(tmp > ans){
+                        ans = tmp;
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};
