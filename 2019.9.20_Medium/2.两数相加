@@ -1,0 +1,66 @@
+/*
+ * @lc app=leetcode.cn id=2 lang=cpp
+ *
+ * [2] 两数相加
+ */
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int len(ListNode *l){
+        ListNode *p = l;
+        int cnt = 0;
+        while(p){
+            p = p->next;
+            ++cnt;
+        }
+        return cnt;
+    }
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        int len1 = len(l1);
+        int len2 = len(l2);
+        //取长的链表作为合并载体
+        ListNode *p = (len1 >= len2) ? l1 : l2;
+        ListNode *ans = p;
+        while(l1 && l2){
+            p->val = l1->val + l2->val;
+            if(p->val >= 10 && p->next){
+                p->val %= 10;
+                p->next->val += 1;
+                //两链表长度相等，相加时末端出现进位
+            }else if(p->val >= 10 && !p->next){
+                p->val %= 10;
+                ListNode *t = new ListNode(1);
+                t->next = NULL;
+                p->next = t;
+                p = NULL;
+                break;
+            }
+            p = p->next;
+            l1 = l1->next;
+            l2 = l2->next;
+        }
+        while(p){
+            if(p->val >= 10 && p->next){
+                p->val %= 10;
+                p->next->val += 1;
+                //多出来的长度末端出现进位
+            }else if(p->val >= 10 && !p->next){
+                p->val %= 10;
+                ListNode *t = new ListNode(1);
+                t->next =  NULL;
+                p->next = t;
+                break;
+            }
+            p = p->next;
+        }
+        return ans;
+    }
+};
+
