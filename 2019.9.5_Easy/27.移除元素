@@ -1,0 +1,32 @@
+/*
+ * @lc app=leetcode.cn id=27 lang=cpp
+ *
+ * [27] 移除元素
+ 双指针法
+ */
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        int len = nums.size();
+        int i = 0;
+        int j = nums.size() - 1; 
+        int cnt = 0;
+        while(i <= j){
+            if(nums[i] == val){
+                if(nums[j] != val){
+                    int tmp = nums[j];
+                    nums[j] = nums[i];
+                    nums[i] = tmp;
+                    ++i;
+                    --j;
+                }else{
+                    --j;
+                }
+            }else{
+                i++;
+            }
+        }
+        return j+1;
+    }
+};
+
