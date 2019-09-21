@@ -1,0 +1,21 @@
+/*
+ * @lc app=leetcode.cn id=322 lang=cpp
+ *
+ * [322] 零钱兑换
+ //动态规划 恶心到我了
+ */
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        vector<int> dp(amount + 1, 0x3f3f3f);
+        dp[0] = 0;
+        //遍历所有状态
+        for(int i = 1; i < amount+1; i++){
+            for(int j = 0; j < coins.size(); j++){
+                if(i - coins[j] >= 0)
+                    dp[i] = min(dp[i], 1 + dp[i - coins[j]]);
+            }
+        }
+        return dp[amount] == 0x3f3f3f ? -1 : dp[amount];
+    }
+};
