@@ -1,0 +1,33 @@
+/*
+ * @lc app=leetcode.cn id=437 lang=cpp
+ *
+ * [437] 路径总和 III
+ 被秀到了
+ */
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int pathSum(TreeNode* root, int sum) {
+        if(!root) return 0;
+        int currPathSum = count(root, sum);
+        int leftPathSum = pathSum(root->left, sum);
+        int rightPathSum = pathSum(root->right, sum);
+        return currPathSum + leftPathSum + rightPathSum;
+    }
+
+    int count(TreeNode *root, int sum){
+        if(!root) return 0;
+        int isMe = root->val == sum ? 1 : 0;
+        int liftIsOk = count(root->left, sum-root->val);
+        int rightIsOk = count(root->right, sum-root->val);
+        return isMe + liftIsOk + rightIsOk;
+    }
+};
