@@ -1,0 +1,22 @@
+/*
+ * @lc app=leetcode.cn id=198 lang=cpp
+ *
+ * [198] 打家劫舍
+ 写出状态转移方程
+ f(-1) = f(0) = 0;
+ f(n) = max(f(n-1), f(n-2) + curr_num)
+ */
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int last1 = 0;
+        int last2 = 0;
+        int curr = 0;
+        for(int n : nums){
+            curr = max(last1, last2 + n);
+            last2 = last1;
+            last1 = curr;
+        }
+        return curr;
+    }
+};
