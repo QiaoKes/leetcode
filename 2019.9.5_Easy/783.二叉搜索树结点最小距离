@@ -1,0 +1,26 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+  二叉搜索树中序遍历为有序序列
+ */
+class Solution {
+public:
+    int min_val = 0x3f3f3f;
+    int curr = min_val;
+    int minDiffInBST(TreeNode* root) {
+        if(root){
+            minDiffInBST(root->left);
+            
+            min_val = min(min_val, abs(root->val - curr));
+            curr = root->val;
+
+            minDiffInBST(root->right);
+        }
+        return min_val;
+    }
+};
