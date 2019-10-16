@@ -1,0 +1,26 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ //判断两颗树左右子树的镜像是否相同即可
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        return isSame(root->left, root->right);
+    }
+    bool isSame(TreeNode *p, TreeNode *q){
+        if(p==nullptr && q==nullptr) return true;
+        if(p==nullptr || q==nullptr) return false;
+        if(p->val == q->val){
+            return isSame(p->left, q->right) && isSame(p->right, q->left);
+        }else{
+            return false;
+        }
+        return true;
+    }
+};
