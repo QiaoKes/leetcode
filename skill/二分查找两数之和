@@ -1,0 +1,7 @@
+//在有序数组中查找是否存在两个数的和等于k
+
+while(l < r){
+    if(a[l] + a[r] == k)     { flag = true; break;}
+    else if(a[l] + a[r] < k) { ++l;}
+    else                     { --r;}
+}
