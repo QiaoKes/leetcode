@@ -1,0 +1,37 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ //树的遍历+hash表 真慢
+#include <hash_map>
+class Solution {
+public:
+    vector<int>a;
+    
+    bool findTarget(TreeNode* root, int k) {
+        search(root);
+        bool flag = false;
+        map<int, int> hashmap;
+        int len = a.size();
+        for(int i = 0; i < len; ++i){
+            int tmp = k-a[i];
+            if(hashmap.find(tmp) != hashmap.end()){
+                flag = true;
+            }
+            hashmap[a[i]] = i;
+        }
+        return flag;
+    }
+    void search(TreeNode *root){
+        if(root != nullptr){
+            search(root->left);
+            a.push_back(root->val);
+            search(root->right);
+        }
+    }
+};
