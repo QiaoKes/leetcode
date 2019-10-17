@@ -35,3 +35,31 @@ public:
         }
     }
 };
+
+
+///////////////////////////
+//二分查找 挺快 学到了新东西
+class Solution {
+public:
+    vector<int>a;
+    
+    bool findTarget(TreeNode* root, int k) {
+        search(root);
+        bool flag = false;
+        int l = 0;
+        int r = a.size()-1;
+        while(l < r){
+            if(a[l] + a[r] == k)    { flag = true; break;}
+            else if(a[l] + a[r] < k) { ++l;}
+            else                     { --r;}
+        }
+        return flag;
+    }
+    void search(TreeNode *root){
+        if(root != nullptr){
+            search(root->left);
+            a.push_back(root->val);
+            search(root->right);
+        }
+    }
+};
