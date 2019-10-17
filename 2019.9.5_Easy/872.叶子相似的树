@@ -1,0 +1,27 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ //树的遍历框架得出叶子 然后判断两组叶子是否相同
+class Solution {
+public:
+    bool leafSimilar(TreeNode* root1, TreeNode* root2) {
+        vector<int>t1,t2;
+        getTree(root1, t1);
+        getTree(root2, t2);
+        return t1 == t2;
+    }
+    
+    void getTree(TreeNode *root, vector<int> &a){
+        if(root){
+            if(!root->left && !root->right) a.push_back(root->val);
+            getTree(root->left,  a);
+            getTree(root->right, a);
+        }
+    }
+};
