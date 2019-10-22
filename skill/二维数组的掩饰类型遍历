@@ -1,0 +1,27 @@
+int ai[3][4]; //定义一个数组
+using int_array = int[4]; //类型别名(掩饰类型)
+typedf int int_array[4];  //等价类型别名
+
+//遍历二维数组
+for(int_array *p = ai; p != ai; ++p){
+    for(int *q = *p; *q != *p+4; ++q){
+        cout << *q <<" ";
+    cout << endl;
+    }
+}
+
+/*
+typedef int int_array[4];
+就是定义了一种类型
+该类型是包含4个int元素的数组
+之后你可以这样使用
+int_array arr = {1, 2, 3, 4};
+和
+arr[4] = {1, 2, 3, 4};
+等价
+
+那么int_array* p就是一个指针了， 指针指向包含4个int元素的数组
+与 int(*p)[4] 等价
+所以可以用来遍历 ia[3][4]
+*/
+
