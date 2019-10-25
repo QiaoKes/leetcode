@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int mySqrt(int x) {
+        int left  = 0;
+        //sqrt(n) <= n/2
+        int right = x/2+1;
+        while(left < right){
+            //取左中位数会死循环
+            int mid = left + (right-left)/2 + 1;
+            //防止 mid*mid 溢出
+            if(mid > x/mid) right = mid - 1;
+            else            left  = mid;
+        }
+        return left;
+    }
+};
