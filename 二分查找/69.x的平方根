@@ -1,3 +1,4 @@
+//多注意边界值 2147483647
 class Solution {
 public:
     int mySqrt(int x) {
