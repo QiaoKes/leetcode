@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int len = nums.size();
+        if(len == 0) return -1;
+        int left = 0;
+        int right = len-1;
+        int mid = left + (right-left)/2;
+        while(left <= right){
+            if(nums[mid] == target){
+                return mid;
+            }
+            //若左面有序
+            else if(nums[left] <= nums[mid]){
+                //目标值在范围内
+                if(nums[left] <= target && target <= nums[mid]){
+                    //给右边界
+                    right = mid - 1;
+                }else{
+                    //左边不要了
+                    left = mid + 1;
+                }
+            }
+            //若右面有序
+            else{
+                //目标值在范围内
+                if(nums[mid] <= target && target <= nums[right]){
+                    //给左边界
+                    left = mid + 1;
+                }else{
+                    //右边不要了
+                    right = mid - 1;
+                }
+            }
+            //更新mid值
+            mid = left + (right-left)/2;
+        }
+        //失败了
+        return -1;
+    }
+};
