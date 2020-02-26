@@ -1,0 +1,26 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* mergeTrees(TreeNode* t1, TreeNode* t2) {
+				//若当前左右子树均有节点， 进行合并
+        if(t1 != nullptr && t2 != nullptr) {
+            t1->val += t2->val;
+						// 递归的合并左子树
+            t1->left = mergeTrees(t1->left, t2->left);
+						// 递归的合并右子树
+            t1->right = mergeTrees(t1->right, t2->right);
+						// 删除多于节点 防止内存是泄露
+            delete t2; t2 == nullptr;
+        }
+				// 若左右有一为空 则返回非空子树
+        return t1 == nullptr ? t2 : t1; 
+    }
+};
