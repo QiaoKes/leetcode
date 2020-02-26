@@ -1,0 +1,7 @@
+// 异或一下就可以了 查看所有不同的位， 然后计数
+class Solution {
+public:
+    int hammingDistance(int x, int y) {
+        return bitset<32>(x ^ y).count();
+    }
+};
