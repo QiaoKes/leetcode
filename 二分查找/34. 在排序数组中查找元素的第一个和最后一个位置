@@ -1,0 +1,46 @@
+static const auto _ = []() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    return nullptr;
+}();
+
+//c++ api法
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        auto[b, e] = equal_range(nums.begin(), nums.end(), target);
+        return b == e ? vector<int>{-1, -1} : vector<int>{b - nums.begin(), e - nums.begin() - 1};
+    }
+};
+
+//equal_range 具体实现
+class Solution {
+public:
+    int lower_bound(vector<int>& vec, int target)
+    {
+        int l = 0, r = vec.size();
+        while(l < r) {
+            int m = l + (r - l) / 2;
+            if (vec[m] >= target) r = m;
+            else l = m + 1;
+        }
+        return l;
+    }
+
+    int upper_bound(vector<int>& vec, int target)
+    {
+        int l = 0, r = vec.size();
+        while(l < r) {
+            int m = l + (r - l) / 2;
+            if (vec[m] > target) r = m;
+            else l = m + 1;
+        }
+        return l;
+    }
+
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int b = lower_bound(nums, target);
+        int e = upper_bound(nums, target);
+        return b == e ? vector<int>{-1, -1} : vector<int>{b, e - 1};
+    }
+};
