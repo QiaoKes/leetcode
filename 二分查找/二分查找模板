@@ -1,0 +1,21 @@
+[l, r)
+
+def binary_search():
+  while l < r:
+    m = l + (l - r)//2
+    #满足f(m) 返回m
+    if f(m) return m
+    #满足g(m) 缩减范围
+    if g(m) r = m
+    # 否则收敛
+    else l = m + 1
+return l
+
+def binary_search():
+  while l < r
+    m = l + (l - r)//2:
+    if g(m) r = m
+    # 不满足条件 继续收敛
+    else l = m + 1
+  #最终返回满足g(m)条件的值
+  return l
