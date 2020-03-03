@@ -1,0 +1,22 @@
+static const auto _ = []() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    return nullptr;
+}();
+
+class Solution {
+public:
+    int kthSmallest(vector<vector<int>>& matrix, int k) {
+        int l = matrix[0][0];
+        int r = matrix[matrix.size() - 1].back() + 1;
+        while(l < r) {
+            int m = l + (r - l) / 2;
+            int total = 0;
+            for(const auto& v : matrix)
+                total += upper_bound(v.begin(), v.end(), m) - v.begin();
+            if (total >= k) r = m;
+            else l = m + 1;
+        }
+        return l;
+    }
+};
