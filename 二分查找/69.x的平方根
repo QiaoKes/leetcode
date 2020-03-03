@@ -4,14 +4,14 @@ public:
     int mySqrt(int x) {
         if(x == 0 || x == 1) return x;
         int left = 0;
-        int right = x/2+1;
+        int right = x/2+1; //缩小边界
         while(left < right){
             int mid = left + (right-left)/2;
-            //防止溢出
-            if(mid < x/mid) left = mid + 1;
-            else right = mid;
+            //防溢出 此处寻找一个 mid 使得 mid * mid > x成立
+            if(mid > (double)(x/mid)) right = mid;
+            else left = mid + 1;
         }
-        //判断是否取的是下界
-        return left <= (double)x/left ? left : left-1;
+        //mid - 1 即为所求解
+        return left - 1;
     }
 };
