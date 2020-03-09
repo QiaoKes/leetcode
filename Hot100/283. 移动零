@@ -1,0 +1,17 @@
+static const auto _ = []() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    return nullptr;
+}();
+
+//双指针经典题目
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int i = 0, j = 0;
+        for(; i < nums.size(); ++i) 
+            if (nums[i] != 0)  
+                if(i != j) swap(nums[j++], nums[i]);
+            else ++j;
+    }
+};
