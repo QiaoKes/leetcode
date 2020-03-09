@@ -1,0 +1,29 @@
+static const auto _ = []() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    return nullptr;
+}();
+
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        //若一个数组[1..n+1]没有重复数字 取其中位数b
+        //则sum([x | x <- [1..n+1], x <= b]) == b
+        //现在数组[1..n] 存在重复数字y 取其中位数b
+        //若sum > b 则y <- [1..b]
+        //若sum < b 则y <- [b+1..n]
+        //重复上述过程 不断缩短区间
+        //所以可以用二分查找 时间复杂度O(n*logn)
+        int l = 1, r = nums.size();
+        while (l < r) {
+            int m = l + (r - l) / 2;
+            int cnt = 0;
+            for(const auto& n : nums)
+                if (n <= m) ++cnt;
+            //寻找第一个m使得 sum > m 成立
+            if (cnt > m) r = m;
+            else l = m + 1;
+        }
+        return l;
+    }
+};
