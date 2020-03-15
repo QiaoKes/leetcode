@@ -27,3 +27,23 @@ public:
         return dp[n]%mod;
     }
 };
+
+//优化
+class Solution {
+public:
+    int waysToStep(int n) {
+        if(n == 1) return 1;
+        if(n == 2) return 2;
+        if(n == 3) return 4;
+        const long long mod = 1000000007;
+        vector<long long> dp(n+1, 0);
+        long long a = 1;
+        long long b = 2;
+        long long c = 4;
+        for(int i = 4; i <= n; ++i) {
+            auto temp = ((a%mod + b%mod)%mod + c%mod)%mod;
+            a = b; b = c; c = temp;
+        }
+        return c%mod;
+    }
+};
