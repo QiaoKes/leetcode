@@ -1,0 +1,161 @@
+//并查集
+class uf_set {
+    friend int find_max(uf_set&, int);
+public:
+	uf_set(std::size_t);
+	uf_set() = delete;	
+	uf_set(const uf_set&) = delete;
+	uf_set& operator=(const uf_set&) = delete;
+	~uf_set() = default;
+
+	bool union_set(int, int);
+	int find(int);
+	bool is_connected(int, int);
+	std::size_t get_area_number() const;
+private:
+	std::vector<int> _parents;
+	std::vector<int> _ranks;
+	int	_curr_area;
+};
+
+inline
+uf_set::uf_set(std::size_t n)
+{
+	_curr_area = n;
+	_parents   = std::vector<int>(n, 0);
+	_ranks     = std::vector<int>(n, 0);
+	for (std::size_t i = 0; i < n; ++i)
+		_parents[i] = i;
+}
+
+int uf_set::find(int x)
+{
+	while (x != _parents[x]) {
+		_parents[x] = _parents[_parents[x]];
+		x = _parents[x];
+	}
+	return _parents[x];
+}
+
+//合并两个节点 返回是否成功
+bool uf_set::union_set(int x, int y)
+{
+	int x_root = find(x);
+	int y_root = find(y);
+	if (x_root == y_root) {
+		return false;
+	}
+	if (_ranks[x_root] < _ranks[y_root]) {
+		_parents[x_root] = y_root;
+	}
+	else if (_ranks[y_root] < _ranks[x_root]) {
+		_parents[y_root] = x_root;
+	}
+	else if (_ranks[y_root] == _ranks[x_root]) {
+		_parents[y_root] = x_root;
+		++_ranks[x_root];
+	}
+	--_curr_area;
+	return true;
+}
+
+//返回两个节点是否连通
+inline
+bool uf_set::is_connected(int x, int y)
+{
+	return find(x) == find(y);
+}
+
+//返回当前集合数
+inline
+std::size_t uf_set::get_area_number() const
+{
+	return _curr_area;
+}
+
+int find_max(uf_set& s, int virtual_pt)
+{
+    unordered_map<int, int> m;
+    for(const auto& p : s._parents) {
+        ++m[s.find(p)];
+    }
+    int max_val = 0;
+    for(auto[key, val] : m) {
+        max_val = (key == virtual_pt) ? max_val : max(val, max_val);
+    }
+    return max_val;
+}
+
+class Solution {
+public:
+    int maxAreaOfIsland(vector<vector<int>>& grid) {
+        int m = grid.size();
+        if (m == 0) return 0;
+        int n = grid[0].size();
+        int virtual_pt = n*m;
+        uf_set s(n*m+1);
+
+        auto get_index = [&n](int i, int j) {
+            return i*n+j;
+        };
+
+        vector<vector<int>> direction = {{1, 0}, {0, 1}};
+
+        for(int i = 0; i < m; ++i) {
+            for(int j = 0; j < n; ++j) {
+                for(const auto& dir : direction) {
+                    auto next_x = i + dir[0];
+                    auto next_y = j + dir[1];
+                    if(grid[i][j] == 1) {
+                        if(next_x < m && next_y < n && grid[next_x][next_y] == 1) {
+                            s.union_set(get_index(i, j), get_index(next_x, next_y));
+                        }
+                    }
+                    else {
+                        s.union_set(get_index(i, j), virtual_pt);
+                    }
+                }
+            }
+        }
+        virtual_pt = s.find(virtual_pt);
+        return find_max(s, virtual_pt);
+    }
+};
+
+//dfs
+class Solution {
+public:
+    int maxAreaOfIsland(vector<vector<int>>& grid) {
+        int m = grid.size();
+        if (m == 0) return 0;
+        int n = grid[0].size();
+        vector<vector<int>> direction = {{1,0}, {0,1}, {-1,0}, {0,-1}};
+        
+        function<int(int, int)> dfs = [&](int x, int y)->int {
+            if (x < 0 || x >= m || y < 0 || y >= n) {
+                return 0;
+            }
+            if(grid[x][y] == 0) {
+                return 0;
+            }
+
+            int sum = 1;
+            grid[x][y] = 0;
+
+            for(const auto& dir : direction) {
+                auto next_x = x + dir[0];
+                auto next_y = y + dir[1];
+                sum += dfs(next_x, next_y);
+            }
+            return sum;
+        };
+
+        int ret = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                ret = max(ret, dfs(i, j));
+            }
+        }
+        return ret;
+    }
+};
