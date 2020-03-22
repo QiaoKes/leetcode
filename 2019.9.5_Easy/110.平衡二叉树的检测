@@ -1,0 +1,16 @@
+class Solution {
+public:
+    bool isBalanced(TreeNode* root) {
+        if (root == nullptr) return true;
+        if (abs(GetBTreeDepth(root->left) - GetBTreeDepth(root->right)) > 1) 
+            return false;
+        return isBalanced(root->left) && isBalanced(root->right);
+    }
+
+    int GetBTreeDepth(TreeNode* root) {
+        if (root == nullptr)  return 0;
+        int lDepth = GetBTreeDepth(root->left) + 1;
+        int rDepth = GetBTreeDepth(root->right) + 1;
+        return lDepth > rDepth ? lDepth : rDepth;
+    }
+};
