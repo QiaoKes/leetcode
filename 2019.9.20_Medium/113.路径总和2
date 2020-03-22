@@ -1,0 +1,27 @@
+//经典的数值搜索
+
+class Solution {
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int sum) {
+        dfs(root, sum);
+        return ans;
+    }
+
+    void dfs(TreeNode* root, int sum) {
+        if (root == nullptr) {
+            return ;
+        }
+        tmp.push_back(root->val);
+        if (root->val == sum && !root->left && !root->right) {
+            ans.push_back(tmp);
+        }
+        if(root->left != nullptr) 
+            dfs(root->left, sum - root->val);
+        if(root->right != nullptr) 
+            dfs(root->right, sum - root->val);
+        tmp.pop_back();
+    }
+private:
+    vector<vector<int>> ans;
+    vector<int> tmp;
+};
