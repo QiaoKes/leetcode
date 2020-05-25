@@ -1,0 +1,19 @@
+//简单的双指针 我写的太烂了QAQ
+class Solution {
+public:
+    string compressString(string S) {
+        int l = 0;
+        int r = 0;
+        string ans = "";
+        while(r <= S.size()) {
+            if(r != S.size() && S[l] == S[r]) ++r;
+            else {
+                ans.push_back(S[l]);
+                ans.append(to_string(r - l));
+                l = r;
+                ++r;
+            }
+        }
+        return ans.size() < S.size() ? ans : S;
+    }
+};
