@@ -1,0 +1,28 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ /*
+ **核心思路 双重递归 遍历整棵树A 同时对每个节点进行检查 检查以A为根是否存在与B相同的树即可。
+ **         注意B中若没有子树而A中还有时 应该返回 true 此时是部分匹配的。
+ */
+class Solution {
+public:
+    bool isSubStructure(TreeNode* A, TreeNode* B) {
+        if(A == nullptr || B == nullptr) return false;
+        return is_same(A, B) || isSubStructure(A->left, B) || isSubStructure(A->right, B);
+    }
+
+    bool is_same(TreeNode* A, TreeNode* B) {
+        if(A == nullptr && B == nullptr) return true;
+        if(A == nullptr && B != nullptr) return false;
+        if(A != nullptr && B == nullptr) return true;
+        if(A->val != B->val) return false;
+        return is_same(A->left, B->left) && is_same(A->right, B->right);   
+    }
+};
