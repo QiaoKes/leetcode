@@ -1,0 +1,18 @@
+
+//用一个辅助栈来模拟这个过程 按顺序将pushed压入， 如果 栈顶元素匹配则将辅助栈元素弹出，注意边界即可。
+//最后若整个辅助栈为空 则表示完全匹配
+class Solution {
+public:
+    bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
+        stack<int> stk;
+        int curr = 0;
+        for(const auto n : pushed) {
+            stk.push(n);
+            while(curr < popped.size() && !stk.empty() && stk.top() == popped[curr]) {
+                ++curr;
+                stk.pop();
+            }
+        }
+        return stk.empty();
+    }
+};
