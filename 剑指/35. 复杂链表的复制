@@ -1,0 +1,35 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
+    
+    Node(int _val) {
+        val = _val;
+        next = NULL;
+        random = NULL;
+    }
+};
+*/
+
+//1.划水做法 哈希表 时间空间O（n）
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        unordered_map<Node*, Node*> map;
+        //克隆所有节点
+        for(auto curr = head; curr != nullptr; curr = curr->next) {
+            map[curr] = new Node(curr->val);
+        }
+        //按原节点连接
+        for(auto curr = head; curr != nullptr; curr = curr->next) {
+            map[curr]->next = map[curr->next];
+            map[curr]->random = map[curr->random];
+        }
+
+        return map[head];
+    }
+};
+
