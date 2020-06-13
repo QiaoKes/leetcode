@@ -1,0 +1,35 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int sum) {   
+        pathSumHelper(root, sum);
+        return res;
+    }
+
+    void pathSumHelper(TreeNode* root, int sum) {
+        if(root == nullptr) return;
+        //走到当前节点了 把这个值压入到路径里
+        path.push_back(root->val);
+        //若是走到根节点了，并且这个路径的总和等于sum，把该路径压入res中
+        if(root->val == sum && root->left == nullptr && root->right == nullptr) {
+            res.push_back(path);
+        }
+        //递归的遍历左子树，总和减去当前节点的值
+        pathSumHelper(root->left,  sum - root->val);
+        //递归的遍历右子树，总和减去当前节点的值
+        pathSumHelper(root->right, sum - root->val);
+        //这个节点走完了 要返回上一层了 把该节点从路径里剔除
+        path.pop_back();
+    }
+private:
+    vector<int> path;
+    vector<vector<int>> res;
+};
