@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool verifyPostorder(vector<int>& postorder) {
+        //节点为1必是二叉排序树（空树的情况看要求）
+        if(postorder.size() < 2) return true;
+        return verifyPostorderHelper(postorder, 0, postorder.size() - 1);
+    }
+
+    bool verifyPostorderHelper(vector<int>& postorder, int start, int end) {
+        if(start >= end) return true;
+        //取根节点
+        auto root = postorder[end];
+        int index = start;
+        //向右找到分界点（左子树的值小于根节点值，右子树大于根节点值）
+        while(index < end && postorder[index] < root) ++index;
+        //检查右子树有没有不合法的 值小于等于根节点
+        for(int i = index; i < end; ++i) {
+            if(postorder[i] <= root) return false;
+        }
+        //递归的检查左右子树
+        return verifyPostorderHelper(postorder, start, index - 1) 
+            && verifyPostorderHelper(postorder, index, end - 1);
+    }
+};
