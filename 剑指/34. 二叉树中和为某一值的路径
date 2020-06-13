@@ -18,7 +18,7 @@ public:
         if(root == nullptr) return;
         //走到当前节点了 把这个值压入到路径里
         path.push_back(root->val);
-        //若是走到根节点了，并且这个路径的总和等于sum，把该路径压入res中
+        //若是走到叶节点了，并且这个路径的总和等于sum，把该路径压入res中
         if(root->val == sum && root->left == nullptr && root->right == nullptr) {
             res.push_back(path);
         }
